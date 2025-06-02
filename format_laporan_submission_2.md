@@ -1,8 +1,15 @@
 # Laporan Proyek Machine Learning - Nama Anda
 
 ## Project Overview
+### Latar Belakan
 
-Pada bagian ini, Kamu perlu menuliskan latar belakang yang relevan dengan proyek yang diangkat.
+<img src="" alt="Contoh Gambar" style="width:100%; height:auto;">
+
+Perkembangan teknologi digital telah mengubah cara masyarakat mengakses informasi dan memperoleh pengetahuan. Salah satu dampak signifikan dari perubahan ini adalah meningkatnya popularitas kursus daring (online courses) sebagai alternatif pembelajaran formal dan informal. Platform seperti Udemy, Coursera, dan edX menyediakan ribuan kursus dari berbagai kategori, mulai dari pengembangan diri hingga kecerdasan buatan. Hal ini membuka peluang besar bagi siapa pun untuk belajar kapan saja dan di mana saja, tanpa batasan geografis maupun waktu (Hew, Hu, Qiao, & Tang, 2020).
+
+Namun, seiring dengan pertumbuhan jumlah kursus yang tersedia secara daring, muncul tantangan baru bagi pengguna, yaitu kesulitan dalam memilih kursus yang paling relevan dengan kebutuhan, tingkat kemampuan, dan preferensi pribadi mereka. Banyaknya pilihan sering kali menimbulkan kebingungan atau bahkan membuat pengguna merasa kewalahan (Kizilcec & Brooks, 2017). Oleh karena itu, dibutuhkan suatu sistem yang mampu merekomendasikan kursus secara personal berdasarkan data preferensi pengguna dan karakteristik kursus itu sendiri.
+
+Sistem rekomendasi telah terbukti efektif dalam meningkatkan pengalaman pengguna dan mendorong keterlibatan yang lebih tinggi di berbagai platform digital seperti e-commerce dan media sosial. Dengan mengadopsi pendekatan yang serupa, sistem rekomendasi kursus daring dapat membantu pengguna menemukan materi pembelajaran yang sesuai dan relevan, sehingga proses belajar menjadi lebih efisien dan terarah (Tang & McCalla, 2005).
 
 **Rubrik/Kriteria Tambahan (Opsional)**:
 - Jelaskan mengapa dan bagaimana masalah tersebut harus diselesaikan
@@ -12,16 +19,16 @@ Pada bagian ini, Kamu perlu menuliskan latar belakang yang relevan dengan proyek
 
 ## Business Understanding
 
-Pada bagian ini, Anda perlu menjelaskan proses klarifikasi masalah.
-
+Industri e-learning seperti Udemy mengalami pertumbuhan pesat dengan menawarkan ribuan kursus daring dari berbagai bidang. Namun, tantangan utama yang dihadapi adalah bagaimana membantu pengguna menemukan kursus yang paling relevan dengan kebutuhan, minat, dan tingkat keahlian mereka. Tanpa sistem rekomendasi yang efektif, pengguna dapat merasa kewalahan oleh banyaknya pilihan yang tersedia, yang berdampak pada rendahnya kepuasan dan retensi pengguna. Proyek ini bertujuan untuk membangun sistem rekomendasi berbasis data guna meningkatkan relevansi saran kursus, mendorong keterlibatan pengguna, mempercepat proses pengambilan keputusan pembelajaran, serta memberikan nilai tambah bisnis berupa peningkatan konversi dan loyalitas pengguna terhadap platform.
 Bagian laporan ini mencakup:
 
 ### Problem Statements
 
 Menjelaskan pernyataan masalah:
-- Pernyataan Masalah 1
-- Pernyataan Masalah 2
-- Pernyataan Masalah n
+- Pengguna kesulitan menemukan kursus yang sesuai dengan minat, tingkat keterampilan, dan tujuan belajar mereka karena jumlah kursus yang sangat banyak
+- Tidak semua kursus yang populer atau berperingkat tinggi relevan dengan kebutuhan spesifik setiap individu.
+- Kurangnya sistem personalisasi menyebabkan pengalaman belajar yang kurang optimal dan meningkatkan kemungkinan pengguna meninggalkan platform.
+
 
 ### Goals
 
