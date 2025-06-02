@@ -1,9 +1,9 @@
 # Laporan Proyek Machine Learning - Nama Anda
 
 ## Project Overview
-### Latar Belakan
+### Latar Belakang
 
-<img src="" alt="Contoh Gambar" style="width:100%; height:auto;">
+<img src="https://github.com/wildannrr/system-recomender_appliedML/blob/main/assets/bg.jpg" alt="Contoh Gambar" style="width:100%; height:auto;">
 
 Perkembangan teknologi digital telah mengubah cara masyarakat mengakses informasi dan memperoleh pengetahuan. Salah satu dampak signifikan dari perubahan ini adalah meningkatnya popularitas kursus daring (online courses) sebagai alternatif pembelajaran formal dan informal. Platform seperti Udemy, Coursera, dan edX menyediakan ribuan kursus dari berbagai kategori, mulai dari pengembangan diri hingga kecerdasan buatan. Hal ini membuka peluang besar bagi siapa pun untuk belajar kapan saja dan di mana saja, tanpa batasan geografis maupun waktu (Hew, Hu, Qiao, & Tang, 2020).
 
@@ -11,39 +11,76 @@ Namun, seiring dengan pertumbuhan jumlah kursus yang tersedia secara daring, mun
 
 Sistem rekomendasi telah terbukti efektif dalam meningkatkan pengalaman pengguna dan mendorong keterlibatan yang lebih tinggi di berbagai platform digital seperti e-commerce dan media sosial. Dengan mengadopsi pendekatan yang serupa, sistem rekomendasi kursus daring dapat membantu pengguna menemukan materi pembelajaran yang sesuai dan relevan, sehingga proses belajar menjadi lebih efisien dan terarah (Tang & McCalla, 2005).
 
-**Rubrik/Kriteria Tambahan (Opsional)**:
-- Jelaskan mengapa dan bagaimana masalah tersebut harus diselesaikan
-- Menyertakan hasil riset terkait atau referensi. Referensi yang diberikan harus berasal dari sumber yang kredibel dan author yang jelas.
-- Format Referensi dapat mengacu pada penulisan sitasi [IEEE](https://journals.ieeeauthorcenter.ieee.org/wp-content/uploads/sites/7/IEEE_Reference_Guide.pdf), [APA](https://www.mendeley.com/guides/apa-citation-guide/) atau secara umum seperti [di sini](https://penerbitdeepublish.com/menulis-buku-membuat-sitasi-dengan-mudah/)
-- Sumber yang bisa digunakan [Scholar](https://scholar.google.com/)
-
 ## Business Understanding
+Industri e-learning global mengalami pertumbuhan pesat dalam beberapa tahun terakhir, terutama didorong oleh meningkatnya kebutuhan masyarakat untuk belajar secara fleksibel dan mandiri. Salah satu platform terbesar, Udemy, menawarkan ribuan kursus daring yang mencakup berbagai bidang keahlian. Namun, seiring bertambahnya jumlah kursus, pengguna semakin kesulitan menemukan materi yang sesuai dengan minat, tingkat kemampuan, dan tujuan belajarnya. Jika tidak ditangani, permasalahan ini dapat menurunkan keterlibatan pengguna, memperbesar risiko churn, dan menghambat efektivitas pembelajaran (Kizilcec & Brooks, 2017). Oleh karena itu, dibutuhkan sistem rekomendasi berbasis data yang mampu menyajikan pilihan kursus secara personal dan relevan. Sistem ini dapat dibangun dengan pendekatan seperti content-based filtering maupun collaborative filtering, untuk memberikan saran kursus berdasarkan karakteristik kursus dan perilaku pengguna sebelumnya. Implementasi solusi ini diyakini dapat meningkatkan kepuasan pengguna, mempercepat pengambilan keputusan belajar, serta memberikan keunggulan kompetitif bagi penyedia platform e-learning (Tang & McCalla, 2005).
 
-Industri e-learning seperti Udemy mengalami pertumbuhan pesat dengan menawarkan ribuan kursus daring dari berbagai bidang. Namun, tantangan utama yang dihadapi adalah bagaimana membantu pengguna menemukan kursus yang paling relevan dengan kebutuhan, minat, dan tingkat keahlian mereka. Tanpa sistem rekomendasi yang efektif, pengguna dapat merasa kewalahan oleh banyaknya pilihan yang tersedia, yang berdampak pada rendahnya kepuasan dan retensi pengguna. Proyek ini bertujuan untuk membangun sistem rekomendasi berbasis data guna meningkatkan relevansi saran kursus, mendorong keterlibatan pengguna, mempercepat proses pengambilan keputusan pembelajaran, serta memberikan nilai tambah bisnis berupa peningkatan konversi dan loyalitas pengguna terhadap platform.
-Bagian laporan ini mencakup:
 
 ### Problem Statements
-
-Menjelaskan pernyataan masalah:
 - Pengguna kesulitan menemukan kursus yang sesuai dengan minat, tingkat keterampilan, dan tujuan belajar mereka karena jumlah kursus yang sangat banyak
 - Tidak semua kursus yang populer atau berperingkat tinggi relevan dengan kebutuhan spesifik setiap individu.
 - Kurangnya sistem personalisasi menyebabkan pengalaman belajar yang kurang optimal dan meningkatkan kemungkinan pengguna meninggalkan platform.
 
 
 ### Goals
+- Mengembangkan sistem rekomendasi kursus daring berbasis data yang dapat memberikan saran personal kepada pengguna berdasarkan preferensi dan riwayat interaksi.
+- Mengimplementasikan pendekatan content-based filtering dan/atau collaborative filtering untuk mengidentifikasi kursus yang paling relevan.
+- Meningkatkan efisiensi proses pencarian kursus serta mempermudah pengguna dalam mengambil keputusan pembelajaran yang tepat.
 
-Menjelaskan tujuan proyek yang menjawab pernyataan masalah:
-- Jawaban pernyataan masalah 1
-- Jawaban pernyataan masalah 2
-- Jawaban pernyataan masalah n
+   
 
-Semua poin di atas harus diuraikan dengan jelas. Anda bebas menuliskan berapa pernyataan masalah dan juga goals yang diinginkan.
+### **Solution Statements**
 
-**Rubrik/Kriteria Tambahan (Opsional)**:
-- Menambahkan bagian “Solution Approach” yang menguraikan cara untuk meraih goals. Bagian ini dibuat dengan ketentuan sebagai berikut: 
+Untuk mencapai tujuan utama membangun sistem rekomendasi kursus yang relevan dan personal bagi pengguna, dua pendekatan utama akan diimplementasikan: **Content-Based Filtering** dan **Collaborative Filtering**. Masing-masing pendekatan akan dikembangkan secara terpisah untuk mengevaluasi efektivitasnya dalam konteks rekomendasi kursus berbasis data dari platform seperti Udemy.
 
-    ### Solution statements
-    - Mengajukan 2 atau lebih solution approach (algoritma atau pendekatan sistem rekomendasi).
+#### **1. Content-Based Filtering**
+
+Pendekatan Content-Based Filtering (CBF) mengandalkan informasi deskriptif dari kursus yang tersedia untuk menentukan kemiripan antar kursus. Sistem akan merekomendasikan kursus yang memiliki kemiripan fitur dengan kursus yang sebelumnya telah diikuti atau disukai oleh pengguna.
+
+**Implementasi teknis:**
+
+* Setiap kursus akan direpresentasikan dalam bentuk vektor fitur yang dibangun dari atribut seperti judul kursus, kategori, dan deskripsi.
+* Representasi teks tersebut akan dikonversi menjadi vektor numerik menggunakan teknik **TF-IDF (Term Frequency–Inverse Document Frequency)**.
+* Kemiripan antar kursus dihitung menggunakan **Cosine Similarity**, menghasilkan matriks kemiripan.
+* Kursus yang memiliki skor kemiripan tinggi dengan kursus yang sudah diminati oleh pengguna akan direkomendasikan.
+
+**Kelebihan:**
+
+* Tidak bergantung pada data pengguna lain, sehingga cocok untuk sistem dengan jumlah pengguna terbatas.
+* Dapat menjelaskan rekomendasi secara eksplisit berdasarkan fitur kursus.
+
+**Keterbatasan:**
+
+* Terjebak dalam "filter bubble", karena hanya merekomendasikan kursus yang mirip dengan preferensi sebelumnya.
+* Kualitas rekomendasi sangat bergantung pada kelengkapan dan kejelasan deskripsi konten kursus.
+
+> Referensi: Lops, P., de Gemmis, M., & Semeraro, G. (2011). Content-based recommender systems: State of the art and trends. *Recommender Systems Handbook*, 73–105. [https://doi.org/10.1007/978-0-387-85820-3\_3](https://doi.org/10.1007/978-0-387-85820-3_3)
+
+---
+
+#### **2. Collaborative Filtering**
+
+Pendekatan Collaborative Filtering (CF) berfokus pada pola interaksi antar pengguna untuk menemukan kursus yang disukai oleh pengguna dengan preferensi serupa. Pendekatan yang akan digunakan adalah **model-based collaborative filtering** berbasis neural network.
+
+**Implementasi teknis:**
+
+* Sistem akan memanfaatkan data interaksi pengguna dalam bentuk triplet `(user_id, course_id, rating)`.
+* ID pengguna dan kursus di-*encode* menjadi vektor embedding berdimensi rendah.
+* Model neural network (misalnya RecommenderNet) akan mempelajari representasi laten dari pengguna dan kursus melalui proses pelatihan.
+* Prediksi dilakukan dengan menghitung dot product antara embedding pengguna dan kursus, lalu diterjemahkan menjadi skor relevansi.
+
+**Kelebihan:**
+
+* Dapat menemukan pola dan asosiasi yang tidak terlihat secara eksplisit di data konten.
+* Mampu memberikan rekomendasi yang bersifat serendipitous atau tidak terduga namun relevan.
+
+**Keterbatasan:**
+
+* Rentan terhadap *cold start problem*, terutama untuk pengguna atau kursus baru yang belum memiliki cukup interaksi.
+* Membutuhkan volume data interaksi yang cukup besar untuk performa optimal.
+
+> Referensi: He, X., Liao, L., Zhang, H., Nie, L., Hu, X., & Chua, T. S. (2017). Neural collaborative filtering. In *Proceedings of the 26th International Conference on World Wide Web* (pp. 173–182). [https://doi.org/10.1145/3038912.3052569](https://doi.org/10.1145/3038912.3052569)
+
+---
 
 ## Data Understanding
 Paragraf awal bagian ini menjelaskan informasi mengenai jumlah data, kondisi data, dan informasi mengenai data yang digunakan. Sertakan juga sumber atau tautan untuk mengunduh dataset. Contoh: [UCI Machine Learning Repository](https://archive.ics.uci.edu/ml/datasets/Restaurant+%26+consumer+data).
