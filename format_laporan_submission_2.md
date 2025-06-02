@@ -83,17 +83,41 @@ Pendekatan Collaborative Filtering (CF) berfokus pada pola interaksi antar pengg
 ---
 
 ## Data Understanding
-Paragraf awal bagian ini menjelaskan informasi mengenai jumlah data, kondisi data, dan informasi mengenai data yang digunakan. Sertakan juga sumber atau tautan untuk mengunduh dataset. Contoh: [UCI Machine Learning Repository](https://archive.ics.uci.edu/ml/datasets/Restaurant+%26+consumer+data).
 
-Selanjutnya, uraikanlah seluruh variabel atau fitur pada data. Sebagai contoh:  
+Dataset yang digunakan dalam proyek ini merupakan kumpulan data kursus dari platform edukasi daring Udemy. Dataset ini berisi informasi seputar kursus online, termasuk topik, harga, tingkat kesulitan, serta jumlah peserta, Proses pengumpulan data dilakukan melalui tiga langkah utama:
 
-Variabel-variabel pada Restaurant UCI dataset adalah sebagai berikut:
-- accepts : merupakan jenis pembayaran yang diterima pada restoran tertentu.
-- cuisine : merupakan jenis masakan yang disajikan pada restoran.
-- dst
+- Mendownload dataset dari yang masih berupa zip di kaggle
+- Mengekstrak isi file ZIP untuk mendapatkan file CSV secara lokal
+- Mengupload file CSV ke google colab
+- Membaca file CSV ke dalam bentuk DataFrame agar dapat dianalisis lebih lanjut.
 
-**Rubrik/Kriteria Tambahan (Opsional)**:
-- Melakukan beberapa tahapan yang diperlukan untuk memahami data, contohnya teknik visualisasi data beserta insight atau exploratory data analysis.
+#### Informasi Dataset : 
+| Jenis       | Keterangan                                                                                                                                      |
+|-------------|--------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Title**   | 👨‍🏫Udemy Courses✍🏻                                                                                                              |
+| **Source**  | [Kaggle](https://www.kaggle.com/datasets/andrewmvd/udemy-courses)                                                              |
+| **Maintainer** | [Andrewmvd](https://www.kaggle.com/andrewmvd)                                                                                     |                                 |
+| **Visibility** | Publik                                                                                                                                       |
+| **Tags**    | Education, Business, Online Comunitties, Tabular                                                                  |
+| **Usability** | 10.00                                                                                                                                         |
+  
+Dataset ini berisi 3.682 entri dan 12 fitur, yang mereprentasikan : 
+
+| Nama Kolom            | Tipe Data  | Deskripsi                                                            |
+| --------------------- | ---------- | -------------------------------------------------------------------- |
+| `course_id`           | Integer    | ID unik setiap kursus                                                |
+| `title`               | String     | Judul kursus                                                         |
+| `url`                 | String     | Tautan ke kursus di situs Udemy                                      |
+| `is_paid`             | Boolean    | Status apakah kursus berbayar atau gratis                            |
+| `price`               | String/Int | Harga kursus dalam USD                                               |
+| `num_subscribers`     | Integer    | Jumlah pengguna yang mengikuti kursus                                |
+| `num_reviews`         | Integer    | Jumlah ulasan pengguna terhadap kursus                               |
+| `num_lectures`        | Integer    | Jumlah total video dalam kursus                                      |
+| `level`               | String     | Tingkatan kursus (Beginner, Intermediate, Expert, All Levels)        |
+| `content_duration`    | Float      | Durasi kursus dalam jam                                              |
+| `published_timestamp` | Timestamp  | Tanggal kursus diterbitkan di platform                               |
+| `subject`             | String     | Kategori utama/topik kursus (Business, Web Dev, Graphic Design, dll) |
+
 
 ## Data Preparation
 Pada bagian ini Anda menerapkan dan menyebutkan teknik data preparation yang dilakukan. Teknik yang digunakan pada notebook dan laporan harus berurutan.
