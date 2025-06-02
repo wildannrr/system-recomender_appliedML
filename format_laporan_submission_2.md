@@ -101,7 +101,7 @@ Dataset yang digunakan dalam proyek ini merupakan kumpulan data kursus dari plat
 | **Tags**    | Education, Business, Online Comunitties, Tabular                                                                  |
 | **Usability** | 10.00                                                                                                                                         |
   
-Dataset ini berisi 3.682 entri dan 12 fitur, yang mereprentasikan : 
+Dataset ini berisi 3.678 entri dan 12 fitur, yang mereprentasikan : 
 
 | Nama Kolom            | Tipe Data  | Deskripsi                                                            |
 | --------------------- | ---------- | -------------------------------------------------------------------- |
