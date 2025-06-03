@@ -675,14 +675,24 @@ Visualisasi heatmap cosine similarity memberikan gambaran kuantitatif tentang hu
 
 
 ## Referensi
-[1]
-[2]
-[3]
-[4]
-[5]
-[6]
-[7]
-[8]
-[9]
-[10]
-[11]
+[1] Hew, K. F., Hu, X., Qiao, C., & Tang, Y. (2020). What predicts student satisfaction with MOOCs: A gradient boosting trees supervised machine learning and sentiment analysis approach. Computers & Education, 145, 103724. https://doi.org/10.1016/j.compedu.2019.103724
+
+[2] Kizilcec, R. F., & Brooks, C. (2017). Diverse Big Data and Randomized Field Experiments in MOOCs. In C. Lang, G. Siemens, A. Wise, & D. Gašević (Eds.), The Handbook of Learning Analytics (pp. 269–278). Society for Learning Analytics Research (SoLAR).
+
+[3] Tang, T., & McCalla, G. (2005). Smart recommendation for an evolving e-learning system. International Journal on E-learning, 4(1), 105–129.
+
+[4] Global Market Insights. (2023). Recommender system market size. Retrieved June 3, 2025, from https://www.gminsights.com/industry-analysis/elearning-market-size
+
+[5] Li, Q., Yang, Q., & Xue, X. (2010). Transfer learning for collaborative filtering via a rating-matrix generative model. Proceedings of the 27th International Conference on Machine Learning (ICML-10), 617–624.
+
+[6] Aggarwal, C. C. (2016). Recommender systems: The textbook. Springer.
+
+[7] Udemy Engineering. (2021, July 15). How Udemy uses hybrid recommendation systems to personalize learning. Udemy Tech Blog from https://medium.com/udemy-engineering
+
+[8] Zhao, Y., Xu, G., & Zhang, Y. (2019). Personalized recommendation in massive open online courses with probabilistic matrix factorization. IEEE Access, 7, 97499–97511.
+
+[9] Google Developers. (n.d.). Recommending courses using text similarity. Google Developer Guides. https://developers.google.com/machine-learning/recommendation/overview
+
+[10] Lops, P., de Gemmis, M., Semeraro, G. (2011). Content-based Recommender Systems: State of the Art and Trends. In: Ricci, F., Rokach, L., Shapira, B., Kantor, P. (eds) Recommender Systems Handbook. Springer, Boston, MA. https://doi.org/10.1007/978-0-387-85820-3_3
+
+[11] DQLab, “Content-Based Filtering dalam Algoritma Data Science,” DQLab, [Online]. Available: https://dqlab.id/content-based-filtering-dalam-algoritma-data-science. [Accessed: 27-May-2025].
