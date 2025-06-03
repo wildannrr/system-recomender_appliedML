@@ -179,18 +179,165 @@ _Insight:_
 Secara keseluruhan, matriks ini menunjukkan bahwa jumlah subscribers dan reviews memiliki hubungan yang lebih erat, sementara jumlah lectures lebih berkorelasi dengan durasi dan content.
 
 ## Data Preparation
-Pada bagian ini Anda menerapkan dan menyebutkan teknik data preparation yang dilakukan. Teknik yang digunakan pada notebook dan laporan harus berurutan.
+Pada tahap ini, data disiapkan agar bisa digunakan dalam proses machine learning atau analisis lanjutan. Langkah-langkah yang dilakukan meliputi: data cleaning, seleksi fitur, penggabungan teks, dan vektorisasi teks menggunakan TF-IDF 
 
-**Rubrik/Kriteria Tambahan (Opsional)**: 
-- Menjelaskan proses data preparation yang dilakukan
-- Menjelaskan alasan mengapa diperlukan tahapan data preparation tersebut.
+### Data Cleaning
+Sebelum melakukan tahapan persiapan data yang lebih lanjut, beberapa langkah pembersihan data (data cleaning) telah dilakukan pada tahap Data Understanding untuk memastikan kualitas data. Tahapan ini meliputi:
 
+1.  **Penanganan Missing Values:** Memeriksa dan menghapus data yg memiliki nilai NULL atau NAN, karena dataset ini tidak memiliki missing values, jadi tidak dilakukan proses pembersihan, hanya mengecek saja
+2.  **Penanganan Data Duplikat:** Mengidentifikasi dan menghapus data yg memiliki duplikasi
+3.  **Penanganan Data Tidak Relevan:** Terdapat beberapa data yang tidak relevan pada fitur `num_lecture` dan `num_subscriber`, yaitu nilainya 0. Keduanya tidak relevan karena tidak mungkin ada kursus tanpa konten dan tidak mungkin ada kursus berdurasi 0
+   
+1. Cek Missing Value :
+   ```python
+   df.isnull().sum()
+   ```
+   Output:
+   
+   ![image](https://github.com/user-attachments/assets/5794209a-6712-44a7-a02b-215908a288f3)
+
+   _insight_ : Tidak terdapat missing value pada data ini
+
+2. Penangan Data Duplikat :
+   
+   Identifikasi Data Duplikat, untuk menentukan proses penangan duplikasi data, apakah menghapusnya atau melakukan agregasi.
+
+   ```python
+
+   # Ambil semua baris yang dianggap duplikat
+   duplikat = df[df.duplicated(keep=False)]
+   
+   # Cek apakah seluruh kolomnya identik
+   identik = duplikat.groupby(list(df.columns)).size().reset_index(name='count')
+   
+   print(f"Jumlah grup baris duplikat unik (berdasarkan semua kolom): {len(identik)}")
+   display(identik)
+   ```
+Ouput : 
+
+![image](https://github.com/user-attachments/assets/377ab6b2-639d-4868-9cd2-429cc3e11df1)
+_insight_: 
+ Semua baris yang duplikat memiliki nilai yang sama persis di semua kolom (karena count: 2 pada setiap grup), artinya mereka duplikat secara penuh, dapat disimpulkan bahwa teknik lanjutan yg akan digunakan adalah .drop_duplicates()
+
+Mengatasi Data Duplikat: 
+
+```python
+# Hapus baris duplikat
+df = df.drop_duplicates()
+
+# Cek data setelah penghapusan data duplikat
+print("Jumlah baris setelah menghapus duplikat:", df.shape[0])
+```
+Output: 
+
+Setelah proses penghapusan data duplikat dengan metode `.drop.duplicates()` , Jumlah data sekarang adalah 3672
+
+3. Penangan Data Tidak Relevan :
+   ```python
+   # Hapus data yang tidak relevan
+   df = df[df['content_duration'] > 0]
+   df = df[df['num_lectures'] > 0]
+
+   print("Jumlah baris dan kolom setelah pembersihan:", df.shape)
+   ```
+   Output :
+
+   Setelah proses penghapusan data yang tidak relevan pada fitur `content_duration` dan `num_lectures`, Jumlah data sekarang adalah 3671
+   
+--- 
+
+### Konversi published_timestamp menjadi datetime
+```python
+df['published_timestamp'] = pd.to_datetime(df['published_timestamp'])
+```
+**Mengapa diperlukan?**
+
+- Format konsisten: Data timestamp dalam format string (object) yang tidak bisa diolah untuk analisis temporal
+
+- Operasi waktu: Memungkinkan filtering berdasarkan tanggal, ekstraksi bulan/tahun, atau analisis tren waktu
+  
+### Penggabungan Fitur
+Untuk model Content-Based Filtering yang akan menggunakan informasi tekstual produk, teks dari beberapa kolom yang relevan digabungkan menjadi satu kolom baru. Kolom yang digabungkan adalah `course_title`, `subject`, dan `level`. Hasil penggabungan disimpan dalam kolom `combined_features`. Selain itu, nilai-nilai yang mungkin hilang dalam kolom teks diisi dengan string kosong (`''`) untuk menghindari *error* saat pemrosesan teks.
+
+```python
+df['combined_features'] = df['course_title'] + ' ' + df['subject'] + ' ' + df['level']
+```
+**Mengapa diperlukan?**
+*   Mengkonsolidasikan semua informasi tekstual yang relevan dari berbagai sumber ke dalam satu representasi.
+*   Memudahkan proses vektorisasi teks selanjutnya menggunakan teknik seperti TF-IDF.
+
+### Features Engineering : TF-IDF
+```python
+tfidf = TfidfVectorizer(stop_words='english')
+tfidf_matrix = tfidf.fit_transform(df['combined_features'])
+```
+Penjelasan :
+
+
+`stop_words='english'` : menghapus kata-kata umum seperti "the", "and", "of" dll , yang tidak memberi makna signifikan.
+
+`fit_transform` : membangun dan mengaplikasikan model TF-IDF terhadap teks course_title.
+
+**Mengapa Penting?**
+
+- Mengubah data teks yang tidak terstruktur menjadi format numerik yang dapat diproses oleh algoritma machine learning.
+- Menangkap pentingnya kata kunci dalam setiap produk, yang akan digunakan sebagai dasar untuk menghitung kemiripan konten antar produk.
+  
 ## Modeling
-Tahapan ini membahas mengenai model sisten rekomendasi yang Anda buat untuk menyelesaikan permasalahan. Sajikan top-N recommendation sebagai output.
+### Content Based Filtering (CBF)
+Content-based filtering adalah metode yang digunakan dalam sistem rekomendasi dan analisis data yang berfokus pada karakteristik atau konten dari item-item yang ingin direkomendasikan atau dianalisis. Pendekatan ini menggunakan atribut-atribut atau fitur-fitur item untuk menentukan kesamaan antara item yang ada dan preferensi pengguna. Dalam konteks rekomendasi, content-based filtering berusaha untuk merekomendasikan item yang mirip dengan item yang telah disukai oleh pengguna berdasarkan karakteristik konten [[4](https://dqlab.id/content-based-filtering-dalam-algoritma-data-science)].
 
-**Rubrik/Kriteria Tambahan (Opsional)**: 
-- Menyajikan dua solusi rekomendasi dengan algoritma yang berbeda.
-- Menjelaskan kelebihan dan kekurangan dari solusi/pendekatan yang dipilih.
+Tahapan : 
+1. Menghitung kemiripan menggunakan cosine_similiarity
+
+     
+```python
+cosine_sim = cosine_similarity(tfidf_matrix, tfidf_matrix)
+cosine_sim
+```
+
+   Alasan :
+   Saya memilih cosine similarity karena metrik ini paling cocok untuk mengukur kemiripan antar dokumen berbasis vektor TF-IDF. Cosine similarity menilai kemiripan arah antar vektor,    bukan panjangnya, sehingga cocok untuk teks.
+
+
+**_Bagaimana cara kerjanya?_**
+
+   Setiap dokumen direpresentasikan sebagai vektor dalam ruang multidimensi (dimana setiap dimensi adalah kata unik). Cosine similarity menghitung kosine dari sudut antara dua vektor. Nilai cosine similarity berkisar antara -1 hingga 1:
+   
+   - 1: Menunjukkan bahwa kedua vektor (dokumen) sangat mirip atau identik. Sudut antara mereka adalah 0 derajat.
+   
+   - 0: Menunjukkan bahwa kedua vektor (dokumen) tidak terkait sama sekali atau ortogonal. Sudut antara mereka adalah 90 derajat.
+   
+   - -1: Menunjukkan bahwa kedua vektor (dokumen) sangat berlawanan. Sudut antara mereka adalah 180 derajat.
+
+Output : 
+
+![image](https://github.com/user-attachments/assets/c1b32d67-14d6-47aa-ad94-3961a216424b)
+
+2. Buat Mapping dari Index ke Judul
+   ```python
+   indices = pd.Series(df.index, index=df['course_title']).drop_duplicates()
+
+def recommend_courses(title, cosine_sim=cosine_sim, df=df, indices=indices):
+    if title not in indices:
+        return f"Kursus '{title}' tidak ditemukan."
+
+    idx = indices[title]
+    sim_scores = list(enumerate(cosine_sim[idx]))
+    sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)
+    sim_scores = sim_scores[1:6]  # Ambil 5 teratas setelah dirinya sendiri
+    course_indices = [i[0] for i in sim_scores]
+
+    return df[['course_title', 'subject', 'level', 'price']].iloc[course_indices]
+   ```
+
+   Penjelasan :
+
+   `indices = pd.Series(df.index, index=df['course_title']).drop_duplicates()` :
+   Membuat pemetaan dari nama course ke posisi index dalam DataFrame, dan melakukan drop jika ada course title yang sama
+
+   `def recommend_courses(title, cosine_sim=cosine_sim, df=df, indices=indices):` :
+   Membuat fungsi modular agar bisa memanggil rekomendasi berdasarkan input nama kursus, tanpa menulis ulang semua proses.
 
 ## Evaluation
 Pada bagian ini Anda perlu menyebutkan metrik evaluasi yang digunakan. Kemudian, jelaskan hasil proyek berdasarkan metrik evaluasi tersebut.
