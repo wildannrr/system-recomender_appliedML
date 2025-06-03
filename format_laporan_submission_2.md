@@ -318,7 +318,7 @@ Output :
    ```python
    indices = pd.Series(df.index, index=df['course_title']).drop_duplicates()
 
-def recommend_courses(title, cosine_sim=cosine_sim, df=df, indices=indices):
+   def recommend_courses(title, cosine_sim=cosine_sim, df=df, indices=indices):
     if title not in indices:
         return f"Kursus '{title}' tidak ditemukan."
 
@@ -329,15 +329,155 @@ def recommend_courses(title, cosine_sim=cosine_sim, df=df, indices=indices):
     course_indices = [i[0] for i in sim_scores]
 
     return df[['course_title', 'subject', 'level', 'price']].iloc[course_indices]
+    
    ```
 
-   Penjelasan :
+Penjelasan :
 
-   `indices = pd.Series(df.index, index=df['course_title']).drop_duplicates()` :
-   Membuat pemetaan dari nama course ke posisi index dalam DataFrame, dan melakukan drop jika ada course title yang sama
+![image](https://github.com/user-attachments/assets/273ddc9a-6ba4-49d7-ac92-f8cee806e0d2)
 
-   `def recommend_courses(title, cosine_sim=cosine_sim, df=df, indices=indices):` :
-   Membuat fungsi modular agar bisa memanggil rekomendasi berdasarkan input nama kursus, tanpa menulis ulang semua proses.
+
+Kode ini diperlukan untuk:
+
+* Membangun sistem rekomendasi berbasis konten (content-based filtering).
+* Menyediakan hasil yang cepat, relevan, dan bisa digunakan langsung oleh pengguna.
+* Dibuat modular dan efisien untuk **penggunaan berulang**, integrasi ke produk nyata, dan skalabilitas.
+
+### Model Testing
+Test 1 : 
+
+```python
+course_title = "Introduction to Forex Trading Business For Beginners"
+
+# Ambil indeksnya
+idx = df[df['course_title'] == course_title].index[0]
+
+# Ambil skor similarity terhadap semua kursus
+sim_scores = list(enumerate(cosine_sim[idx]))
+
+# Mengurutkan dari yang paling mirip
+sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)
+
+# Ambil top 10 (kecuali course itu sendiri)
+top_courses = [i[0] for i in sim_scores[1:11]]
+df[['course_title', 'subject', 'price']].iloc[top_courses]
+```
+Output : 
+
+![image](https://github.com/user-attachments/assets/1c390607-d3c1-48fa-8957-355c2e1329e0)
+
+Penjelasan : 
+
+
+
+- **Konsistensi Subjek**
+
+  - 100% course berada dalam kategori "Business Finance"
+  - Menunjukkan sistem berhasil mengidentifikasi kesamaan topik
+  Content-based filtering bekerja dengan baik
+
+- **Fokus Tema Trading/Forex**
+
+  Course diurutkan berdasarkan relevansi:
+
+  - Forex Trading (5 course) - Tema paling dominan
+  - General Trading (3 course) - Tema yang lebih luas
+  - Cryptocurrency/Bitcoin (1 course) - Variasi dalam finance
+  - Day Trading (1 course) - Spesialisasi trading
+
+- **Level Pembelajaran**
+
+  - 8 course mengandung kata "Beginners" atau "Introduction"
+  - 1 course level "Intermediate"
+  - 1 course lebih spesifik (Day Trading)
+
+- **Distribusi Harga**
+
+  - FREE (0):     40% (4 course)
+  - Low (20-50):  40% (4 course)  
+  - High (95-150): 20% (2 course)
+
+  _Insight_: Mayoritas rekomendasi terjangkau untuk pemula.
+
+**Kualitas Similarity Ranking**
+  Urutan menunjukkan tingkat kesamaan:
+
+  - Exact match: "Forex Trading For Beginners"
+  - Very similar: "Forex for Beginners: Easy Forex Trading..."
+  - Topic variation: "Forex Trading" (tanpa beginners)
+  - Gradual expansion: Trading → Day Trading → Bitcoin
+
+Test 2 : 
+
+```python
+# Ambil indeks kursus berdasarkan judul
+course_title = "Introduction to Forex Trading Business For Beginners"
+idx = df[df['course_title'] == course_title].index[0]
+
+# Ambil semua skor cosine similarity terhadap kursus ini
+sim_scores = list(enumerate(cosine_sim[idx]))
+
+# Urutkan dari skor tertinggi ke rendah
+sim_scores_sorted = sorted(sim_scores, key=lambda x: x[1], reverse=True)
+
+# Konversi ke DataFrame untuk tampilan yang rapi
+similarity_df = pd.DataFrame([
+    {
+        'Course': df.iloc[i]['course_title'],
+        'Similarity Score': score
+    }
+    for i, score in sim_scores_sorted
+])
+
+# Tampilkan top 10 hasil (kecuali dirinya sendiri di baris pertama)
+similarity_df.iloc[1:11]
+```
+
+Output : 
+
+![image](https://github.com/user-attachments/assets/f9a2aa32-37e0-43b1-8163-8975ab1df42f)
+
+
+Penjelasan : 
+
+_**Interpretasi Similarity Scores:**_
+
+  - Rentang Skor (0.61 - 0.85)
+  - Skala: 0-1 (dimana 1 = identik sempurna)
+  - Range: 0.6105 - 0.8514
+  - Kualitas: Semua skor di atas 0.6 menunjukkan similarity - yang baik
+
+_**Distribusi Tingkat Kesamaan:**_
+
+🔴 Very High Similarity (0.80+)
+  - Course #1: "Forex Trading For Beginners" - 0.851
+
+    Hampir identik dengan input course
+
+
+
+  🟡 High Similarity (0.70-0.79)
+
+  - Course #2: "Forex for Beginners: Easy Forex Trading..." - 0.736
+
+    Sangat mirip, variasi kata kunci
+
+
+
+  🟢 Good Similarity (0.65-0.69)
+
+  - Course #3: "Forex Trading" - 0.695
+  - Course #4: "Forex Trading For Beginners: Technical..." - 0.692
+  - Course #5: "Forex Trading for Beginners - Basics" - 0.672
+
+🔵 Moderate Similarity (0.60-0.64)
+
+  - Course #6-10: Skor 0.610-0.650
+
+    Masih relevan tapi lebih general (trading vs forex spesifik)
+
+
+
 
 ## Evaluation
 Pada bagian ini Anda perlu menyebutkan metrik evaluasi yang digunakan. Kemudian, jelaskan hasil proyek berdasarkan metrik evaluasi tersebut.
