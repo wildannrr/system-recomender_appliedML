@@ -100,7 +100,7 @@ Dataset ini berisi 3.678 entri dan 12 fitur, yang mereprentasikan :
 | `is_paid`             | Boolean    | Status apakah kursus berbayar atau gratis                            |
 | `price`               | String/Int | Harga kursus dalam USD                                               |
 | `num_subscribers`     | Integer    | Jumlah pengguna yang mengikuti kursus                                |
-| `num_reviews`         | Integer    | Jumlah ulasan pengguna terhadap kursus                               |
+| `num_reviews`         | Integer    | Jumlah ulasan pengguna terhadapkursus                               |
 | `num_lectures`        | Integer    | Jumlah total video dalam kursus                                      |
 | `level`               | String     | Tingkatan kursus (Beginner, Intermediate, Expert, All Levels)        |
 | `content_duration`    | Float      | Durasi kursus dalam jam                                              |
@@ -108,8 +108,74 @@ Dataset ini berisi 3.678 entri dan 12 fitur, yang mereprentasikan :
 | `subject`             | String     | Kategori utama/topik kursus (Business, Web Dev, Graphic Design, dll) |
 
 ## Exploratory Data Analysis (EDA)
+Tahapan EDA telah dilakukan untuk mendapatkan wawasan mendalam tentang data:
+1. **Distribusi Kategori Courses**
+<p align="center">
+  <img src="https://github.com/wildannrr/system-recomender_appliedML/blob/main/assets/distribusi%20berdasarkan%20kategori.png" alt="Gambar 1. Distribusi produk pada kategori utama" width="500"/>
+</p>
+<p align="center"><strong>Gambar 1.</strong> Distribusi Courses Berdasarkan Kategori</p>
 
+- Web Development dan Business Finance adalah dua kategori dengan jumlah kursus terbanyak, masing-masing sekitar 1.200 kursus.
 
+- Musical Instruments dan Graphic Design memiliki jumlah kursus yang jauh lebih sedikit, sekitar 600–700 kursus.
+
+_Insight:_
+
+Kategori Web Development dan Business Finance sangat dominan di platform ini, yang menunjukkan bahwa permintaan atau penawaran kursus dalam dua bidang ini sangat tinggi.
+
+2. **Distribusi Tingkat Kesulitan Courses**
+<p align="center">
+  <img src="https://github.com/wildannrr/system-recomender_appliedML/blob/main/assets/distribusi%20berdsarkan%20tingkat%20kesulitan.png" alt="Gambar 2. Distribusi Courses berdasarkan Tingkat Kesulitan" width="500"/>
+</p>
+<p align="center"><strong>Gambar 2.</strong> Distribusi Courses Berdasarkan tingkat kesulitan</p>
+
+- All Levels adalah tingkat kesulitan terbanyak, dengan hampir 2.000 kursus, menunjukkan bahwa banyak kursus dirancang untuk mencakup semua kalangan.
+
+- Beginner Level berada di urutan kedua dengan sekitar 1.300 kursus.
+
+- Intermediate Level cukup jauh lebih sedikit (~400 kursus).
+
+- Expert Level sangat sedikit — hanya sekitar 50 kursus.
+
+_Insight:_
+
+Platform ini lebih fokus pada kursus untuk pemula atau yang mencakup semua level, sementara kursus dengan tingkat lanjut atau ahli sangat jarang. Ini bisa menunjukkan bahwa target audiens utama adalah pemula atau masyarakat umum.
+
+3. **Distribusi Course Gratis vs Berbayar**
+<p align="center">
+  <img src="https://github.com/wildannrr/system-recomender_appliedML/blob/main/assets/berbayar%20vs%20gratis.png" alt="Gambar 3. Distribusi Course Gratis dan Berbayar" width="500"/>
+</p>
+<p align="center"><strong>Gambar 3.</strong> Distribusi Course Gratis dan Berbayar</p>
+
+- Jumlah kursus berbayar (sekitar 3.500) jauh lebih banyak dibandingkan kursus gratis (sekitar 500).
+- Kursus berbayar mendominasi, dengan rasio hampir 7:1 dibandingkan kursus gratis.
+  
+_Insight:_
+
+Hal ini menunjukkan bahwa platform atau penyedia kursus lebih fokus pada model bisnis berbasis langganan atau pembayaran
+
+4. **Distribusi Korelasi Antar Fitur Numerik**
+<p align="center">
+  <img src="https://github.com/wildannrr/system-recomender_appliedML/blob/main/assets/heatmap%20cor.png" alt="Gambar 4. Distribusi Korelasi Antar Fitur Numerik" width="500"/>
+</p>
+<p align="center"><strong>Gambar 4.</strong> Distribusi Korelasi Fitur Numerik</p>
+Matriks korelasi ini menunjukkan hubungan antara variabel-variabel seperti jumlah subscribers, jumlah reviews, jumlah lectures, content, dan durasi pada "Heatmap Korelasi Fitur Numerik". Berikut beberapa insight berdasarkan matriks:
+
+1. **Korelasi Tinggi**: 
+   - Ada korelasi kuat (1.0) di diagonal utama, yang wajar karena setiap variabel memiliki korelasi sempurna dengan dirinya sendiri.
+   - Korelasi tinggi (0.65) antara jumlah subscribers dan jumlah reviews menunjukkan bahwa semakin banyak subscribers, semakin banyak juga reviews yang diterima.
+
+2. **Korelasi Sedang**:
+   - Korelasi 0.8 antara jumlah lectures dan durasi menunjukkan hubungan positif yang cukup kuat, artinya semakin banyak lectures, semakin lama durasi keseluruhan.
+   - Korelasi 0.65 antara jumlah lectures dan content juga menunjukkan hubungan positif, meskipun tidak sekuat dengan durasi.
+
+3. **Korelasi Rendah**:
+   - Korelasi antara content dan durasi (0.23) serta antara jumlah reviews dan jumlah lectures (0.24) menunjukkan hubungan yang lemah, menandakan bahwa variabel ini tidak terlalu saling bergantung.
+
+4. **Korelasi Negatif atau Sangat Rendah**:
+   - Nilai korelasi seperti 0.16 antara jumlah subscribers dan jumlah lectures atau durasi menunjukkan hubungan yang sangat lemah atau hampir tidak ada.
+
+Secara keseluruhan, matriks ini menunjukkan bahwa jumlah subscribers dan reviews memiliki hubungan yang lebih erat, sementara jumlah lectures lebih berkorelasi dengan durasi dan content. Untuk analisis lebih mendalam, pertimbangkan konteks spesifik dataset ini. Jika perlu informasi tambahan, saya bisa menawarkan untuk mencari data lebih lanjut.
 
 ## Data Preparation
 Pada bagian ini Anda menerapkan dan menyebutkan teknik data preparation yang dilakukan. Teknik yang digunakan pada notebook dan laporan harus berurutan.
