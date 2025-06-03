@@ -11,9 +11,39 @@ Namun, seiring dengan pertumbuhan jumlah kursus yang tersedia secara daring, mun
 
 Sistem rekomendasi telah terbukti efektif dalam meningkatkan pengalaman pengguna dan mendorong keterlibatan yang lebih tinggi di berbagai platform digital seperti e-commerce dan media sosial. Dengan mengadopsi pendekatan yang serupa, sistem rekomendasi kursus daring dapat membantu pengguna menemukan materi pembelajaran yang sesuai dan relevan, sehingga proses belajar menjadi lebih efisien dan terarah [[3](https://www.learntechlib.org/primary/p/5822/)].
 
-## Business Understanding
-Industri e-learning global mengalami pertumbuhan pesat dalam beberapa tahun terakhir, terutama didorong oleh meningkatnya kebutuhan masyarakat untuk belajar secara fleksibel dan mandiri. Salah satu platform terbesar, Udemy, menawarkan ribuan kursus daring yang mencakup berbagai bidang keahlian. Namun, seiring bertambahnya jumlah kursus, pengguna semakin kesulitan menemukan materi yang sesuai dengan minat, tingkat kemampuan, dan tujuan belajarnya. Jika tidak ditangani, permasalahan ini dapat menurunkan keterlibatan pengguna, memperbesar risiko churn, dan menghambat efektivitas pembelajaran (Kizilcec & Brooks, 2017). Oleh karena itu, dibutuhkan sistem rekomendasi berbasis data yang mampu menyajikan pilihan kursus secara personal dan relevan. Sistem ini dapat dibangun dengan pendekatan seperti content-based filtering maupun collaborative filtering, untuk memberikan saran kursus berdasarkan karakteristik kursus dan perilaku pengguna sebelumnya. Implementasi solusi ini diyakini dapat meningkatkan kepuasan pengguna, mempercepat pengambilan keputusan belajar, serta memberikan keunggulan kompetitif bagi penyedia platform e-learning (Tang & McCalla, 2005).
+### Mengapa Proyek Ini Penting?
+**1.Lonjakan Pertumbuhan Platform Pembelajaran Online**
+Dalam beberapa tahun terakhir, platform kursus online seperti Coursera, Udemy, edX, dan lainnya mengalami pertumbuhan eksponensial. Ribuan kursus tersedia, menciptakan masalah information overload bagi pengguna yang kesulitan menemukan kursus yang paling relevan.
 
+Menurut laporan Global Market Insights (2022) [[4](https://www.gminsights.com/industry-analysis/elearning-market-size)], pasar e-learning global diproyeksikan mencapai USD 1 triliun pada tahun 2028, menunjukkan besarnya kebutuhan akan sistem personalisasi yang efektif.
+
+**2.Pentingnya Personalisasi dalam Pembelajaran**
+Kurangnya personalisasi dalam sistem pembelajaran dapat menyebabkan rendahnya motivasi belajar, keterlibatan, dan retensi pengguna.
+
+Penelitian oleh Li et al. (2010)[[5](https://icml.cc/Conferences/2009/papers/210.pdf)] menunjukkan bahwa sistem rekomendasi dapat meningkatkan kepuasan pengguna hingga 47% dan mempercepat proses pengambilan keputusan dalam memilih konten belajar.
+
+**3. Mengatasi Masalah Cold-Start**
+Sistem Content-Based Filtering tidak membutuhkan data historis dari pengguna seperti rating atau interaksi sebelumnya. Ini penting untuk mengatasi masalah cold-start, terutama untuk pengguna baru atau konten baru.
+
+Menurut Aggarwal (2016)[[6](https://link.springer.com/book/10.1007/978-3-319-29659-3)], content-based filtering adalah salah satu solusi paling efektif untuk cold-start problem karena bergantung pada fitur eksplisit dari item, bukan perilaku pengguna.
+
+### Hasil Riset dan Referensi Terkait
+Terdapat 3 hasil riset dari berbagai studi dan platform, diantaranya : 
+- Udemy Engineering Blog [[7](https://medium.com/udemy-engineering)]
+- MOOCs Personalization Study [[8](https://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=10597557)]
+- Google Course Recommendation System [[9](https://developers.google.com/machine-learning/recommendation/overview?hl=id)]
+  
+| Studi / Platform                                    | Temuan                                                                                                                                      | Relevansi                                                                          |
+| --------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
+| **Udemy Engineering Blog**                          | Menjelaskan bahwa mereka menggunakan model hibrida, tetapi CBF tetap krusial untuk cold-start dan filter awal berdasarkan deskripsi kursus. | Menunjukkan bahwa CBF digunakan di platform nyata.                                 |
+| **MOOCs Personalization Study (Zhao et al., 2019)** | Rekomendasi personal meningkatkan engagement sebanyak **+20%** dibanding metode non-personalisasi.                                          | Mendukung pentingnya sistem rekomendasi untuk pengalaman pengguna yang lebih baik. |
+| **Google Course Recommendation System**             | Menjelaskan penggunaan TF-IDF dan Cosine Similarity dalam pencocokan konten deskriptif kursus di awal interaksi.                            | Model yang digunakan dalam proyek ini mengikuti best practice industri.            |
+
+
+## Business Understanding
+Dalam beberapa tahun terakhir, industri e-learning telah mengalami pertumbuhan yang sangat pesat. Platform seperti Udemy menghadirkan ribuan kursus dari berbagai kategori, menjangkau jutaan pengguna di seluruh dunia. Namun, keberhasilan platform ini tidak hanya bergantung pada kuantitas kursus yang tersedia, tetapi juga pada kemampuan untuk menyajikan konten yang relevan dan tepat sasaran kepada pengguna.
+
+Sebagian besar pengguna menghadapi tantangan dalam memilih kursus yang sesuai dengan minat, tujuan pembelajaran, dan tingkat keahlian mereka. Pengalaman pengguna yang buruk dalam proses pencarian kursus dapat menurunkan tingkat kepuasan, retensi, dan konversi. Di sisi lain, sistem rekomendasi yang baik dapat meningkatkan engagement, memperpanjang durasi kunjungan pengguna, bahkan mendorong pembelian lebih lanjut.
 
 ### Problem Statements
 - Pengguna kesulitan menemukan kursus yang sesuai dengan minat, tingkat keterampilan, dan tujuan belajar mereka karena jumlah kursus yang sangat banyak
@@ -34,7 +64,7 @@ Untuk mencapai tujuan utama membangun sistem rekomendasi kursus yang relevan dan
 
 #### **1. Content-Based Filtering**
 
-Pendekatan Content-Based Filtering (CBF) mengandalkan informasi deskriptif dari kursus yang tersedia untuk menentukan kemiripan antar kursus. Sistem akan merekomendasikan kursus yang memiliki kemiripan fitur dengan kursus yang sebelumnya telah diikuti atau disukai oleh pengguna.
+Pendekatan Content-Based Filtering (CBF) mengandalkan informasi deskriptif dari kursus yang tersedia untuk menentukan kemiripan antar kursus. Sistem akan merekomendasikan kursus yang memiliki kemiripan fitur dengan kursus yang sebelumnya telah diikuti atau disukai oleh pengguna.[[10](https://link.springer.com/chapter/10.1007/978-0-387-85820-3_3)]
 
 **Implementasi teknis:**
 
@@ -52,8 +82,6 @@ Pendekatan Content-Based Filtering (CBF) mengandalkan informasi deskriptif dari 
 
 * Terjebak dalam "filter bubble", karena hanya merekomendasikan kursus yang mirip dengan preferensi sebelumnya.
 * Kualitas rekomendasi sangat bergantung pada kelengkapan dan kejelasan deskripsi konten kursus.
-
-> Referensi: Lops, P., de Gemmis, M., & Semeraro, G. (2011). Content-based recommender systems: State of the art and trends. *Recommender Systems Handbook*, 73–105. [https://doi.org/10.1007/978-0-387-85820-3\_3](https://doi.org/10.1007/978-0-387-85820-3_3)
 
 ---
 #### **Keseluruhan** :
@@ -285,7 +313,7 @@ Penjelasan :
   
 ## Modeling
 ### Content Based Filtering (CBF)
-Content-based filtering adalah metode yang digunakan dalam sistem rekomendasi dan analisis data yang berfokus pada karakteristik atau konten dari item-item yang ingin direkomendasikan atau dianalisis. Pendekatan ini menggunakan atribut-atribut atau fitur-fitur item untuk menentukan kesamaan antara item yang ada dan preferensi pengguna. Dalam konteks rekomendasi, content-based filtering berusaha untuk merekomendasikan item yang mirip dengan item yang telah disukai oleh pengguna berdasarkan karakteristik konten [[4](https://dqlab.id/content-based-filtering-dalam-algoritma-data-science)].
+Content-based filtering adalah metode yang digunakan dalam sistem rekomendasi dan analisis data yang berfokus pada karakteristik atau konten dari item-item yang ingin direkomendasikan atau dianalisis. Pendekatan ini menggunakan atribut-atribut atau fitur-fitur item untuk menentukan kesamaan antara item yang ada dan preferensi pengguna. Dalam konteks rekomendasi, content-based filtering berusaha untuk merekomendasikan item yang mirip dengan item yang telah disukai oleh pengguna berdasarkan karakteristik konten [[11](https://dqlab.id/content-based-filtering-dalam-algoritma-data-science)].
 
 Tahapan : 
 1. Menghitung kemiripan menggunakan cosine_similiarity
@@ -619,3 +647,28 @@ _**Course Positioning:**_
 
 
 ## **KESIMPULAN**
+
+Dalam proyek ini, telah dikembangkan sebuah sistem rekomendasi kursus berbasis Content-Based Filtering (CBF) menggunakan pendekatan cosine similarity terhadap fitur deskriptif dari kursus, khususnya course_title. Sistem ini dirancang untuk menjawab beberapa permasalahan utama yang dihadapi pengguna dalam menemukan kursus yang relevan di tengah banyaknya pilihan yang tersedia.
+
+### **Pencapaian Terhadap Problem Statements**
+**1. Kesulitan menemukan kursus sesuai minat dan kebutuhan**
+→ Sistem CBF berhasil mengidentifikasi kursus-kursus yang memiliki kemiripan konten dengan kursus yang dipilih pengguna, sehingga mempermudah pencarian yang relevan dengan minat dan tujuan belajar individu.
+
+**2. Kursus populer belum tentu relevan untuk semua orang**
+→ Dengan menekankan kemiripan isi daripada popularitas, sistem ini merekomendasikan kursus berdasarkan konten yang serupa, bukan berdasarkan rating atau jumlah peserta, sehingga lebih personal.
+
+**3. Kurangnya personalisasi dalam platform kursus**
+→ Sistem ini menghadirkan pengalaman belajar yang lebih terpersonalisasi dengan memberikan daftar rekomendasi yang mirip secara semantik, meningkatkan relevansi dan kemungkinan keterlibatan pengguna.
+
+### **Pencapaian Terhadap Goals**
+**1.Pembangunan sistem berbasis konten**
+→ Fitur seperti judul kursus digunakan untuk membentuk representasi vektor TF-IDF, yang kemudian dihitung kemiripannya dengan cosine similarity untuk membangun sistem rekomendasi.
+
+**2.Menyediakan daftar kursus alternatif yang mirip**
+→ Fungsi recommend_courses() berhasil menghasilkan rekomendasi top-5 yang kontennya paling mirip dengan kursus input pengguna.
+
+**3.Solusi tanpa data interaksi pengguna (cold-start)**
+→ Sistem ini tidak bergantung pada data user_id atau rating, sehingga sangat cocok untuk diterapkan dalam skenario cold-start ketika data interaksi pengguna masih terbatas atau belum tersedia.
+
+### **Kesimpulan Visualisasi**
+Visualisasi heatmap cosine similarity memberikan gambaran kuantitatif tentang hubungan antar kursus, membantu memverifikasi bahwa kursus dengan topik serupa memang memiliki skor kemiripan tinggi. Hal ini membuktikan bahwa metode yang digunakan telah bekerja secara logis dan sesuai dengan tujuan proyek.
