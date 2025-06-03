@@ -476,19 +476,146 @@ _**Distribusi Tingkat Kesamaan:**_
 
     Masih relevan tapi lebih general (trading vs forex spesifik)
 
+**Menghitung akurasi kemiripan antar Courses dengan :**
+
+```python
+idx_A = df[df['course_title'] == "Forex Trading"].index[0]
+idx_B = df[df['course_title'] == "Introduction to Bitcoin for Beginners"].index[0]
+
+similarity_score = cosine_sim[idx_A][idx_B]
+print(f"Similarity Score between Forex Trading and Introduction to Bitcoin for Beginners : {similarity_score}")
+
+```
+Penjelasan: 
+
+- idx: Mendapatkan index baris dari kursus yang dicari.
+
+- `enumerate(cosine_sim[idx])`: Mengambil skor kemiripan antara kursus tersebut dan seluruh kursus lainnya.
+  
+Output : 
+
+![image](https://github.com/user-attachments/assets/e8618c6f-0367-4388-ae97-77e27c228103)
+
+## Evaluasi dan Visualisasi
+
+**Melihat Rekomendasi Kursus berdasarkan Kursus Tertentu**
+```python
+# Fungsi menampilkan rekomendasi
+def show_recommendations(idx, top_n=5):
+    course_title = df.iloc[idx]['course_title']
+    print(f"\nKursus acuan: '{course_title}'\n")
+
+    # Ambil indeks dan skor kemiripan tertinggi
+    similarity_scores = cosine_sim[idx]
+    top_indices = similarity_scores.argsort()[::-1][1:top_n+1]  # urutkan dan ambil top-n, skip index pertama
+
+    print("Rekomendasi:")
+    for i in top_indices:
+        print(f"  - {df.iloc[i]['course_title']} (Score: {similarity_scores[i]:.4f})")
+
+```
+Penjelasan : 
 
 
+- `def show_recommendations(idx, top_n=5):`
+  - `idx`: Index course yang akan dicari rekomendasinya
+  - `top_n`: Jumlah rekomendasi yang ingin ditampilkan (default 5)
 
-## Evaluation
-Pada bagian ini Anda perlu menyebutkan metrik evaluasi yang digunakan. Kemudian, jelaskan hasil proyek berdasarkan metrik evaluasi tersebut.
+- `course_title = df.iloc[idx]['course_title']` : Mengambil judul course berdasarkan index
 
-Ingatlah, metrik evaluasi yang digunakan harus sesuai dengan konteks data, problem statement, dan solusi yang diinginkan.
+- `print(f"\nKursus acuan: '{course_title}'\n")` : Menampilkan course yang dijadikan acuan untuk rekomendasi
 
-**Rubrik/Kriteria Tambahan (Opsional)**: 
-- Menjelaskan formula metrik dan bagaimana metrik tersebut bekerja.
+- `similarity_scores = cosine_sim[idx]
+top_indices = similarity_scores.argsort()[::-1][1:top_n+1]` :
+  - `cosine_sim[idx]`: Mengambil baris similarity matrix untuk course ke-idx
+  - `argsort()`: Mengurutkan index berdasarkan nilai similarity (ascending)
+  - `[::-1]` : Membalik urutan jadi descending (tertinggi dulu)
+  - `[1:top_n+1] `: Skip index pertama (course itu sendiri), ambil top_n selanjutnya
 
-**---Ini adalah bagian akhir laporan---**
+- `for i in top_indices:
+    print(f"- {df.iloc[i]['course_title']} (Score: {similarity_scores[i]:.4f})")`
+    - Loop untuk setiap course yang direkomendasikan
+    - Menampilkan judul course dan similarity score dengan 4 desimal
 
-_Catatan:_
-- _Anda dapat menambahkan gambar, kode, atau tabel ke dalam laporan jika diperlukan. Temukan caranya pada contoh dokumen markdown di situs editor [Dillinger](https://dillinger.io/), [Github Guides: Mastering markdown](https://guides.github.com/features/mastering-markdown/), atau sumber lain di internet. Semangat!_
-- Jika terdapat penjelasan yang harus menyertakan code snippet, tuliskan dengan sewajarnya. Tidak perlu menuliskan keseluruhan kode project, cukup bagian yang ingin dijelaskan saja.
+**Tampilkan rekomendasi kursus index ke-3 dengan 5 rekomendasi kursus**
+```python
+show_recommendations(3, top_n=5)
+```
+Output : 
+
+![image](https://github.com/user-attachments/assets/65143f1a-2aa3-48d4-8eb2-30e7af4abbf6)
+
+Penjelasan : 
+
+  - "Excel Crash Course: Master Excel for Financial Analysis" - Score: 0.6219
+
+    - Relevansi Tinggi: Excel + Financial Analysis (exact match)
+    Target: Lebih spesifik ke Excel mastery
+
+
+  - "Beginner to Pro in Excel: Financial Modeling and Valuation" - Score: 0.6009
+
+    - Relevansi Sangat Tinggi: "Beginner to Pro" + Excel + Financial
+    - Progression: From same series, level lanjutan
+
+
+  - "Stock Technical Analysis with Excel" - Score: 0.5088
+
+    - Relevansi Sedang: Excel + Financial analysis (stocks)
+    - Spesialisasi: Fokus ke technical analysis
+
+
+  - "Stock Fundamental Analysis with Excel" - Score: 0.4808
+
+    - Relevansi Sedang: Excel + Financial analysis (fundamental)
+    - Complement: Pasangan dengan technical analysis
+
+
+  - "Building Financial Statements in Excel" - Score: 0.4731
+
+    - Relevansi Sedang: Excel + Financial statements
+    - Foundational: Skill dasar untuk financial analysis
+
+**Visualisasi kesamaan antar fitur berdasarkan cosine similiarity**
+![image](https://github.com/user-attachments/assets/ee378ca2-98db-49f1-8a5b-42391c8aa041)
+
+Penjelasan:
+
+_**Cluster Analysis:**_
+
+🔵 Finance/Investment Cluster:
+
+  - "Beginner to Pro - Financial Analysis in Excel 2017" dengan "Financial Modeling for Business Analysts" → 0.18
+  - "Ultimate Investment Banking Course" dengan "The Only Investment Strategy..." → 0.30
+  Menunjukkan courses dengan topik serupa memiliki similarity lebih tinggi
+
+🟢 Trading Cluster:
+
+  - "How To Maximize Your Profits Trading Options" dengan "Options Trading 3: Advanced..." → 0.23
+  - "Trading Penny Stocks" dengan "Trading Stock Chart Patterns" → 0.12
+  Trading courses saling terkait tapi dengan specialization berbeda
+
+_**Pola Similarity:**_
+
+
+- Similarity Tinggi (>0.20):
+
+  - Excel 2017 ↔ Trading Penny Stocks: 0.29 (karena analytical approach)
+  - Ultimate Investment ↔ Investment Strategy: 0.30 (topik investasi serupa)
+  - Options Trading courses: 0.23 (spesialisasi sama)
+
+- Similarity Rendah (<0.10):
+
+  - GST Course ↔ Most others: 0.03-0.07 (topik sangat berbeda - tax vs finance)
+  -Banking ↔ Trading: 0.05-0.08 (domain berbeda dalam finance)
+
+_**Course Positioning:**_
+
+  Most Similar Courses:
+
+- Investment-focused courses (0.30 max similarity)
+- Options trading specialization (0.23)
+- Excel-based analysis (0.29 with penny stocks)
+
+
+## **KESIMPULAN**
