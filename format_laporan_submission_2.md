@@ -22,15 +22,15 @@ Industri e-learning global mengalami pertumbuhan pesat dalam beberapa tahun tera
 
 
 ### Goals
-- Mengembangkan sistem rekomendasi kursus daring berbasis data yang dapat memberikan saran personal kepada pengguna berdasarkan preferensi dan riwayat interaksi.
-- Mengimplementasikan pendekatan content-based filtering dan/atau collaborative filtering untuk mengidentifikasi kursus yang paling relevan.
-- Meningkatkan efisiensi proses pencarian kursus serta mempermudah pengguna dalam mengambil keputusan pembelajaran yang tepat.
+- Membangun sistem rekomendasi kursus berbasis kemiripan konten (content-based) dengan memanfaatkan fitur deskriptif dari kursus seperti judul, subjek, tingkat kesulitan, dan harga.
+- Menyediakan daftar kursus alternatif yang mirip secara konten dengan kursus yang telah dipilih pengguna.
+- Memberikan solusi yang dapat bekerja tanpa data interaksi pengguna, sehingga tetap relevan untuk kasus cold-start.
 
    
 
 ### **Solution Statements**
 
-Untuk mencapai tujuan utama membangun sistem rekomendasi kursus yang relevan dan personal bagi pengguna, dua pendekatan utama akan diimplementasikan: **Content-Based Filtering** dan **Collaborative Filtering**. Masing-masing pendekatan akan dikembangkan secara terpisah untuk mengevaluasi efektivitasnya dalam konteks rekomendasi kursus berbasis data dari platform seperti Udemy.
+Untuk mencapai tujuan utama membangun sistem rekomendasi kursus yang relevan dan personal bagi pengguna, dua pendekatan utama akan diimplementasikan: **Content-Based Filtering**. Pendekatan akan dikembangkan untuk mengevaluasi efektivitasnya dalam konteks rekomendasi kursus berbasis data dari platform seperti Udemy.
 
 #### **1. Content-Based Filtering**
 
@@ -56,30 +56,19 @@ Pendekatan Content-Based Filtering (CBF) mengandalkan informasi deskriptif dari 
 > Referensi: Lops, P., de Gemmis, M., & Semeraro, G. (2011). Content-based recommender systems: State of the art and trends. *Recommender Systems Handbook*, 73–105. [https://doi.org/10.1007/978-0-387-85820-3\_3](https://doi.org/10.1007/978-0-387-85820-3_3)
 
 ---
+#### **Keseluruhan** :
 
-#### **2. Collaborative Filtering**
+- Melakukan pembersihan dan eksplorasi data (EDA) untuk memahami distribusi dan kualitas data kursus.
 
-Pendekatan Collaborative Filtering (CF) berfokus pada pola interaksi antar pengguna untuk menemukan kursus yang disukai oleh pengguna dengan preferensi serupa. Pendekatan yang akan digunakan adalah **model-based collaborative filtering** berbasis neural network.
+- Menggabungkan fitur-fitur teks (course_title, subject, level, price) menjadi satu representasi string.
 
-**Implementasi teknis:**
+- Mengubah representasi teks menjadi vektor numerik menggunakan teknik TF-IDF Vectorization.
 
-* Sistem akan memanfaatkan data interaksi pengguna dalam bentuk triplet `(user_id, course_id, rating)`.
-* ID pengguna dan kursus di-*encode* menjadi vektor embedding berdimensi rendah.
-* Model neural network (misalnya RecommenderNet) akan mempelajari representasi laten dari pengguna dan kursus melalui proses pelatihan.
-* Prediksi dilakukan dengan menghitung dot product antara embedding pengguna dan kursus, lalu diterjemahkan menjadi skor relevansi.
+- Menghitung cosine similarity antar kursus berdasarkan vektor TF-IDF yang dihasilkan.
 
-**Kelebihan:**
+- Mengembangkan fungsi rekomendasi yang mengembalikan top-N kursus yang paling mirip dengan kursus tertentu berdasarkan skor kemiripan.
 
-* Dapat menemukan pola dan asosiasi yang tidak terlihat secara eksplisit di data konten.
-* Mampu memberikan rekomendasi yang bersifat serendipitous atau tidak terduga namun relevan.
-
-**Keterbatasan:**
-
-* Rentan terhadap *cold start problem*, terutama untuk pengguna atau kursus baru yang belum memiliki cukup interaksi.
-* Membutuhkan volume data interaksi yang cukup besar untuk performa optimal.
-
-> Referensi: He, X., Liao, L., Zhang, H., Nie, L., Hu, X., & Chua, T. S. (2017). Neural collaborative filtering. In *Proceedings of the 26th International Conference on World Wide Web* (pp. 173–182). [https://doi.org/10.1145/3038912.3052569](https://doi.org/10.1145/3038912.3052569)
-
+- Melakukan evaluasi kualitatif dan visualisasi untuk memahami relevansi hasil
 ---
 
 ## Data Understanding
@@ -117,6 +106,9 @@ Dataset ini berisi 3.678 entri dan 12 fitur, yang mereprentasikan :
 | `content_duration`    | Float      | Durasi kursus dalam jam                                              |
 | `published_timestamp` | Timestamp  | Tanggal kursus diterbitkan di platform                               |
 | `subject`             | String     | Kategori utama/topik kursus (Business, Web Dev, Graphic Design, dll) |
+
+## Exploratory Data Analysis (EDA)
+
 
 
 ## Data Preparation
