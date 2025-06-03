@@ -13,7 +13,7 @@ Sistem rekomendasi telah terbukti efektif dalam meningkatkan pengalaman pengguna
 
 ### Mengapa Proyek Ini Penting?
 **1.Lonjakan Pertumbuhan Platform Pembelajaran Online**
-Dalam beberapa tahun terakhir, platform kursus online seperti Coursera, Udemy, edX, dan lainnya mengalami pertumbuhan eksponensial. Ribuan kursus tersedia, menciptakan masalah information overload bagi pengguna yang kesulitan menemukan kursus yang paling relevan.
+Dalam beberapa tahun terakhir, platform kursus online seperti Dicoding, Coursera, Udemy, edX, dan lainnya mengalami pertumbuhan eksponensial. Ribuan kursus tersedia, menciptakan masalah information overload bagi pengguna yang kesulitan menemukan kursus yang paling relevan.
 
 Menurut laporan Global Market Insights (2022) [[4](https://www.gminsights.com/industry-analysis/elearning-market-size)], pasar e-learning global diproyeksikan mencapai USD 1 triliun pada tahun 2028, menunjukkan besarnya kebutuhan akan sistem personalisasi yang efektif.
 
@@ -60,7 +60,7 @@ Sebagian besar pengguna menghadapi tantangan dalam memilih kursus yang sesuai de
 
 ### **Solution Statements**
 
-Untuk mencapai tujuan utama membangun sistem rekomendasi kursus yang relevan dan personal bagi pengguna, dua pendekatan utama akan diimplementasikan: **Content-Based Filtering**. Pendekatan akan dikembangkan untuk mengevaluasi efektivitasnya dalam konteks rekomendasi kursus berbasis data dari platform seperti Udemy.
+Untuk mencapai tujuan utama membangun sistem rekomendasi kursus yang relevan dan personal bagi pengguna, pendekatan utama akan diimplementasikan: **Content-Based Filtering**. Pendekatan akan dikembangkan untuk mengevaluasi efektivitasnya dalam konteks rekomendasi kursus berbasis data dari platform seperti Udemy.
 
 #### **1. Content-Based Filtering**
 
