@@ -175,7 +175,8 @@ Matriks korelasi ini menunjukkan hubungan antara variabel-variabel seperti jumla
 4. **Korelasi Negatif atau Sangat Rendah**:
    - Nilai korelasi seperti 0.16 antara jumlah subscribers dan jumlah lectures atau durasi menunjukkan hubungan yang sangat lemah atau hampir tidak ada.
 
-Secara keseluruhan, matriks ini menunjukkan bahwa jumlah subscribers dan reviews memiliki hubungan yang lebih erat, sementara jumlah lectures lebih berkorelasi dengan durasi dan content. Untuk analisis lebih mendalam, pertimbangkan konteks spesifik dataset ini. Jika perlu informasi tambahan, saya bisa menawarkan untuk mencari data lebih lanjut.
+_Insight:_
+Secara keseluruhan, matriks ini menunjukkan bahwa jumlah subscribers dan reviews memiliki hubungan yang lebih erat, sementara jumlah lectures lebih berkorelasi dengan durasi dan content.
 
 ## Data Preparation
 Pada bagian ini Anda menerapkan dan menyebutkan teknik data preparation yang dilakukan. Teknik yang digunakan pada notebook dan laporan harus berurutan.
