@@ -672,3 +672,17 @@ Dalam proyek ini, telah dikembangkan sebuah sistem rekomendasi kursus berbasis C
 
 ### **Kesimpulan Visualisasi**
 Visualisasi heatmap cosine similarity memberikan gambaran kuantitatif tentang hubungan antar kursus, membantu memverifikasi bahwa kursus dengan topik serupa memang memiliki skor kemiripan tinggi. Hal ini membuktikan bahwa metode yang digunakan telah bekerja secara logis dan sesuai dengan tujuan proyek.
+
+
+## Referensi
+[1]
+[2]
+[3]
+[4]
+[5]
+[6]
+[7]
+[8]
+[9]
+[10]
+[11]
