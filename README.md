@@ -99,7 +99,7 @@ Pendekatan Content-Based Filtering (CBF) mengandalkan informasi deskriptif dari 
 - Melakukan evaluasi kualitatif dan visualisasi untuk memahami relevansi hasil
 ---
 
-## Data Understanding
+## Data Understanding and Preparation
 
 Dataset yang digunakan dalam proyek ini merupakan kumpulan data kursus dari platform edukasi daring Udemy. Dataset ini berisi informasi seputar kursus online, termasuk topik, harga, tingkat kesulitan, serta jumlah peserta, Proses pengumpulan data dilakukan melalui tiga langkah utama:
 
@@ -271,9 +271,35 @@ Setelah proses penghapusan data duplikat dengan metode `.drop.duplicates()` , Ju
    Output :
 
    Setelah proses penghapusan data yang tidak relevan pada fitur `content_duration` dan `num_lectures`, Jumlah data sekarang adalah 3671
-   
---- 
 
+--- 
+### Encoding Data Kategorikal
+```python
+le_course = LabelEncoder()
+df['course_index'] = le_course.fit_transform(df['course_id'])
+
+```
+
+Penjelasan : 
+
+- Membuat objek LabelEncoder dari library sklearn.preprocessing.
+
+- Encoder ini akan digunakan untuk mengubah data kategorikal menjadi bentuk numerik.
+
+- fit_transform(...) akan:
+
+    - Mencocokkan semua nilai unik di course_id (misalnya: 1070968, 1113822, 1210588, dst.).
+    - Memberikan indeks (0, 1, 2, ...) untuk setiap nilai unik tersebut.
+    - Hasil transformasi ini disimpan dalam kolom baru course_index.
+
+Mengapa diperlukan?
+
+- Kompatibilitas ML: Algoritma machine learning tidak bisa memproses string/text secara langsung
+- Konsistensi numerik: Mengubah ID course menjadi angka berurutan (0, 1, 2, ...)
+- Memory efficiency: Integer menggunakan memory lebih sedikit dibanding string
+- Preprocessing: Persiapan untuk model yang membutuhkan input numerik
+
+  
 ### Konversi published_timestamp menjadi datetime
 ```python
 df['published_timestamp'] = pd.to_datetime(df['published_timestamp'])
