@@ -206,7 +206,7 @@ Matriks korelasi ini menunjukkan hubungan antara variabel-variabel seperti jumla
 _Insight:_
 Secara keseluruhan, matriks ini menunjukkan bahwa jumlah subscribers dan reviews memiliki hubungan yang lebih erat, sementara jumlah lectures lebih berkorelasi dengan durasi dan content.
 
-## Data Preparation
+## Data Understanding and Preparation
 Pada tahap ini, data disiapkan agar bisa digunakan dalam proses machine learning atau analisis lanjutan. Langkah-langkah yang dilakukan meliputi: data cleaning, seleksi fitur, penggabungan teks, dan vektorisasi teks menggunakan TF-IDF 
 
 ### Data Cleaning
@@ -550,7 +550,6 @@ Output :
 
 ![image](https://github.com/user-attachments/assets/e8618c6f-0367-4388-ae97-77e27c228103)
 
-## Evaluasi dan Visualisasi
 
 **Melihat Rekomendasi Kursus berdasarkan Kursus Tertentu**
 ```python
@@ -568,6 +567,7 @@ def show_recommendations(idx, top_n=5):
         print(f"  - {df.iloc[i]['course_title']} (Score: {similarity_scores[i]:.4f})")
 
 ```
+
 Penjelasan : 
 
 
@@ -591,6 +591,7 @@ top_indices = similarity_scores.argsort()[::-1][1:top_n+1]` :
     - Loop untuk setiap course yang direkomendasikan
     - Menampilkan judul course dan similarity score dengan 4 desimal
 
+  
 **Tampilkan rekomendasi kursus index ke-3 dengan 5 rekomendasi kursus**
 ```python
 show_recommendations(3, top_n=5)
@@ -629,6 +630,10 @@ Penjelasan :
 
     - Relevansi Sedang: Excel + Financial statements
     - Foundational: Skill dasar untuk financial analysis
+
+  
+## Evaluasi dan Visualisasi
+
 
 **Visualisasi kesamaan antar fitur berdasarkan cosine similiarity**
 ![image](https://github.com/user-attachments/assets/ee378ca2-98db-49f1-8a5b-42391c8aa041)
@@ -672,6 +677,101 @@ _**Course Positioning:**_
 - Excel-based analysis (0.29 with penny stocks)
 
 
+## Matrix Evaluasi : Precission@K dan Recall@K
+
+```python
+def precision_at_k(actual, predicted, k=5):
+    precisions = []
+    for course in actual:
+        pred_k = predicted[course][:k]
+        relevant = actual[course]
+        num_relevant = len(set(pred_k) & relevant)
+        precisions.append(num_relevant / k)
+    return sum(precisions) / len(precisions)
+
+def recall_at_k(actual, predicted, k=5):
+    recalls = []
+    for course in actual:
+        pred_k = predicted[course][:k]
+        relevant = actual[course]
+        if not relevant:
+            recalls.append(0)
+        else:
+            num_relevant = len(set(pred_k) & relevant)
+            recalls.append(num_relevant / len(relevant))
+    return sum(recalls) / len(recalls)
+
+```
+Penjelasan : 
+
+- Fungsi precision_at_k menghitung rata-rata ketepatan dari daftar rekomendasi top-k untuk setiap pengguna.
+- Fungsi recall_at_k menghitung seberapa banyak item relevan yang berhasil ditemukan dari seluruh item relevan yang mungkin untuk tiap user.
+
+### Menyusun Dataset Simulasi
+
+```python
+# Ground truth: Kursus yang disukai pengguna
+ground_truth = {
+    "user1": {"Ultimate Investment Banking Course", 
+              "Financial Modeling for Business Analysts and Consultants", 
+              "Beginner to Pro - Financial Analysis in Excel 2017"},
+    
+    "user2": {"How To Maximize Your Profits Trading Options", 
+              "Options Trading 3 : Advanced Stock Profit and Success Method", 
+              "Trading Penny Stocks: A Guide for All Levels In 2017"},
+    
+    "user3": {"Complete GST Course & Certification - Grow Your CA Practice", 
+              "The Only Investment Strategy You Need For Your Retirement"}
+}
+
+# Prediksi hasil rekomendasi oleh sistem (Top-5)
+predictions = {
+    "user1": ["Ultimate Investment Banking Course", 
+              "Beginner to Pro - Financial Analysis in Excel 2017", 
+              "Trading Stock Chart Patterns For Immediate, Explosive Gains", 
+              "Complete GST Course & Certification - Grow Your CA Practice", 
+              "Financial Modeling for Business Analysts and Consultants"],
+    
+    "user2": ["How To Maximize Your Profits Trading Options", 
+              "Trading Penny Stocks: A Guide for All Levels In 2017", 
+              "Options Trading 3 : Advanced Stock Profit and Success Method", 
+              "Investing And Trading For Beginners: Mastering Price Charts", 
+              "Trading Stock Chart Patterns For Immediate, Explosive Gains"],
+    
+    "user3": ["Complete GST Course & Certification - Grow Your CA Practice", 
+              "The Only Investment Strategy You Need For Your Retirement", 
+              "Ultimate Investment Banking Course", 
+              "Beginner to Pro - Financial Analysis in Excel 2017", 
+              "Financial Modeling for Business Analysts and Consultants"]
+}
+
+# Hitung precision@5 dan recall@5
+precision = precision_at_k(ground_truth, predictions, k=5)
+recall = recall_at_k(ground_truth, predictions, k=5)
+
+print(f"Precision@5: {precision:.2f}")
+print(f"Recall@5: {recall:.2f}")
+
+```
+
+Output : 
+
+![image](https://github.com/user-attachments/assets/8cf95369-6f55-4099-be4d-be506fe93af8)
+
+
+Penjelasan : 
+
+- Precision@5: Seberapa banyak dari 5 kursus yang direkomendasikan benar-benar relevan (berada di ground truth).
+
+- Recall@5: Seberapa banyak kursus yang relevan (ground truth) berhasil ditangkap oleh sistem dalam 5 rekomendasi teratas.
+
+| Metrik       | Hasil | Interpretasi                                                                                                                                                     |
+| ------------ | ----- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Precision\@5 | 0.53  | Dari 5 kursus yang direkomendasikan, rata-rata hanya **53%** yang benar-benar relevan. Artinya, sistem bisa lebih akurat dalam memilih kursus yang paling cocok. |
+| Recall\@5    | 1.00  | Sistem berhasil **menemukan semua kursus yang relevan** untuk setiap pengguna dalam 5 rekomendasi. Ini menunjukkan **cakupan sistem sangat baik**.               |
+
+
+
 ## **KESIMPULAN**
 
 Dalam proyek ini, telah dikembangkan sebuah sistem rekomendasi kursus berbasis Content-Based Filtering (CBF) menggunakan pendekatan cosine similarity terhadap fitur deskriptif dari kursus, khususnya course_title. Sistem ini dirancang untuk menjawab beberapa permasalahan utama yang dihadapi pengguna dalam menemukan kursus yang relevan di tengah banyaknya pilihan yang tersedia.
@@ -695,6 +795,14 @@ Dalam proyek ini, telah dikembangkan sebuah sistem rekomendasi kursus berbasis C
 
 **3.Solusi tanpa data interaksi pengguna (cold-start)**
 → Sistem ini tidak bergantung pada data user_id atau rating, sehingga sangat cocok untuk diterapkan dalam skenario cold-start ketika data interaksi pengguna masih terbatas atau belum tersedia.
+
+### **Evaluasi Sistem**
+Untuk mengevaluasi performa sistem rekomendasi secara lebih objektif dan sesuai praktik standar, digunakan metrik Precision@5 dan Recall@5. Hasil evaluasi pada tiga pengguna simulasi menunjukkan:
+
+  - **Precision@5: 0.53** → Rata-rata dari lima rekomendasi teratas, sekitar 53% kursus benar-benar relevan dengan preferensi pengguna.
+  - **Recall@5: 1.00** → Sistem berhasil menangkap seluruh kursus relevan milik pengguna dalam daftar rekomendasi, menunjukkan cakupan sistem sangat tinggi.
+
+Hasil ini menunjukkan bahwa sistem sangat efektif dalam menjangkau kebutuhan pengguna (recall tinggi), meskipun akurasinya masih bisa ditingkatkan untuk memastikan bahwa rekomendasi yang diberikan lebih tepat sasaran (precision sedang).
 
 ### **Kesimpulan Visualisasi**
 Visualisasi heatmap cosine similarity memberikan gambaran kuantitatif tentang hubungan antar kursus, membantu memverifikasi bahwa kursus dengan topik serupa memang memiliki skor kemiripan tinggi. Hal ini membuktikan bahwa metode yang digunakan telah bekerja secara logis dan sesuai dengan tujuan proyek.
