@@ -206,7 +206,7 @@ Matriks korelasi ini menunjukkan hubungan antara variabel-variabel seperti jumla
 _Insight:_
 Secara keseluruhan, matriks ini menunjukkan bahwa jumlah subscribers dan reviews memiliki hubungan yang lebih erat, sementara jumlah lectures lebih berkorelasi dengan durasi dan content.
 
-## Data Understanding and Preparation
+## Data Preparation
 Pada tahap ini, data disiapkan agar bisa digunakan dalam proses machine learning atau analisis lanjutan. Langkah-langkah yang dilakukan meliputi: data cleaning, seleksi fitur, penggabungan teks, dan vektorisasi teks menggunakan TF-IDF 
 
 ### Data Cleaning
