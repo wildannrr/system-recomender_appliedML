@@ -99,7 +99,7 @@ Pendekatan Content-Based Filtering (CBF) mengandalkan informasi deskriptif dari 
 - Melakukan evaluasi kualitatif dan visualisasi untuk memahami relevansi hasil
 ---
 
-## Data Understanding and Preparation
+## Data Understanding
 
 Dataset yang digunakan dalam proyek ini merupakan kumpulan data kursus dari platform edukasi daring Udemy. Dataset ini berisi informasi seputar kursus online, termasuk topik, harga, tingkat kesulitan, serta jumlah peserta, Proses pengumpulan data dilakukan melalui tiga langkah utama:
 
